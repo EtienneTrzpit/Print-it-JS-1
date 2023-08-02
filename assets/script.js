@@ -36,16 +36,14 @@ arrowLeft.addEventListener("click", (e) => {
     document.querySelector(".dot:last-child").classList.add("dot_selected");
   }
 
-  //changement de l'image
+  //trouver la bonne slide
   if (numberSlide == 0) {
     numberSlide = 3;
   } else {
     numberSlide--;
   }
-  banner.src = "assets/images/slideshow/" + slides[numberSlide].image;
-
-  //changement du texte
-  text.innerHTML = slides[numberSlide].tagLine;
+  //changement de slide
+  changeSlide(numberSlide);
 });
 arrowRight.addEventListener("click", (e) => {
   console.log("right");
@@ -59,14 +57,21 @@ arrowRight.addEventListener("click", (e) => {
     document.querySelector(".dot:first-child").classList.add("dot_selected");
   }
 
-  //changement de l'image
+  //trouver la bonne slide
   if (numberSlide == 3) {
     numberSlide = 0;
   } else {
     numberSlide++;
   }
+  //changement de slide
+  changeSlide(numberSlide);
+});
+
+// changement du HTML pour l'image et le texte
+function changeSlide(numberSlide) {
+  // changement image
   banner.src = "assets/images/slideshow/" + slides[numberSlide].image;
 
   //changement du texte
   text.innerHTML = slides[numberSlide].tagLine;
-});
+}
