@@ -18,54 +18,10 @@ const slides = [
   },
 ];
 
-let numberSlide = 0;
-
-const arrowLeft = document.querySelector(".arrow_left");
-const arrowRight = document.querySelector(".arrow_right");
 const banner = document.querySelector(".banner-img");
 const text = document.querySelector(".banner-text");
-arrowLeft.addEventListener("click", (e) => {
-  console.log("left");
-  //changement de la classe dot_selected
-  const dotSelected = document.querySelector(".dot_selected");
-  dotSelected.classList.remove("dot_selected");
-  const dot = dotSelected.previousElementSibling;
-  if (dot) {
-    dot.classList.add("dot_selected");
-  } else {
-    document.querySelector(".dot:last-child").classList.add("dot_selected");
-  }
 
-  //trouver la bonne slide
-  if (numberSlide == 0) {
-    numberSlide = 3;
-  } else {
-    numberSlide--;
-  }
-  //changement de slide
-  changeSlide(numberSlide);
-});
-arrowRight.addEventListener("click", (e) => {
-  console.log("right");
-  //changement de la classe dot_selected
-  const dotSelected = document.querySelector(".dot_selected");
-  dotSelected.classList.remove("dot_selected");
-  const dot = dotSelected.nextElementSibling;
-  if (dot) {
-    dot.classList.add("dot_selected");
-  } else {
-    document.querySelector(".dot:first-child").classList.add("dot_selected");
-  }
-
-  //trouver la bonne slide
-  if (numberSlide == 3) {
-    numberSlide = 0;
-  } else {
-    numberSlide++;
-  }
-  //changement de slide
-  changeSlide(numberSlide);
-});
+let numberSlide = 0;
 
 // changement du HTML pour l'image et le texte
 function changeSlide(numberSlide) {
@@ -75,3 +31,36 @@ function changeSlide(numberSlide) {
   //changement du texte
   text.innerHTML = slides[numberSlide].tagLine;
 }
+
+document.querySelectorAll(".arrow").forEach((arrow) => {
+  arrow.addEventListener("click", (e) => {
+    //changement de la classe dot_selected
+    let dotSelected = document.querySelector(".dot_selected");
+    dotSelected.classList.remove("dot_selected");
+    let dotNext = dotSelected.nextElementSibling;
+    let dotPrev = dotSelected.previousElementSibling;
+    if (dotNext && arrow.classList.contains("arrow_right")) {
+      dotNext.classList.add("dot_selected");
+    } else if (dotPrev && arrow.classList.contains("arrow_left")) {
+      dotPrev.classList.add("dot_selected");
+    } else if (!dotNext && arrow.classList.contains("arrow_right")) {
+      document.querySelector(".dot:first-child").classList.add("dot_selected");
+    } else if (!dotPrev && arrow.classList.contains("arrow_left")) {
+      document.querySelector(".dot:last-child").classList.add("dot_selected");
+    }
+
+    //trouver la bonne slide
+    if (numberSlide == 3 && arrow.classList.contains("arrow_right")) {
+      numberSlide = 0;
+    } else if (numberSlide == 0 && arrow.classList.contains("arrow_left")) {
+      numberSlide = 3;
+    } else if (arrow.classList.contains("arrow_right")) {
+      numberSlide++;
+    } else if (arrow.classList.contains("arrow_left")) {
+      numberSlide--;
+    }
+
+    //changement de slide
+    changeSlide(numberSlide);
+  });
+});
